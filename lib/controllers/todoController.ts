@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import { Client } from "pg";
-const connectionString =
-  "postgres://ycdrsdkz:VCNlVKZ--PJLCHozzG9gQVrKhU_OEJdj@stampy.db.elephantsql.com:5432/ycdrsdkz";
+const connectionString = {
+  connectionString: "postgres://rdgqlzgqkeuxqz:8b89bd358daa419edf7f5f8b879cde3fd53db22b6eb42f0aa3be51b6de8390a4@ec2-54-225-241-25.compute-1.amazonaws.com:5432/d7knd1j7cm9u4c",
+  ssl: true,
+}
+  //"postgres://ycdrsdkz:VCNlVKZ--PJLCHozzG9gQVrKhU_OEJdj@stampy.db.elephantsql.com:5432/ycdrsdkz";
 
 export class TodoController {
   public addNewTodo(req: Request, res: Response) {
@@ -26,7 +29,7 @@ export class TodoController {
           return res.send({success: true, msg: 'Todo Added Successfully'});
         })
         .catch(err => {
-          return res.json({ success: false, data: err });
+          return res.json({ success: false, data: err.message });
         });
     });
   }
