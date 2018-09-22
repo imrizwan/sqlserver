@@ -10,7 +10,7 @@ class App {
   public app: express.Application;
   public routePrv: Routes = new Routes();
   public postUrl: string =
-    "postgres://jjczkcpp:vCol1kmHUXJo8ID7gzHbqzcJS5AGidFR@pellefant.db.elephantsql.com:5432/jjczkcpp";
+    "postgres://ycdrsdkz:VCNlVKZ--PJLCHozzG9gQVrKhU_OEJdj@stampy.db.elephantsql.com:5432/ycdrsdkz";
   // URL for connecting in elephantsql
 
   // declare the express constructor into app and also called config methods

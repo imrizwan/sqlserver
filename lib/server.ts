@@ -1,7 +1,7 @@
 // lib/server.ts
 
 import app from "./app";
-const PORT = 3001 || process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
     console.log('Express server listening on port ' + PORT);
