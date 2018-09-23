@@ -42,7 +42,7 @@ export class TodoController {
         if (error) {
           return res.status(500).json({ success: false, error: error });
         }
-        client.query("SELECT * FROM todoList ORDER BY id dsc")
+        client.query("SELECT * FROM todoList ORDER BY id desc")
           .then(result2 => {
             result2.rows.forEach(row => {
               results.push(row);
