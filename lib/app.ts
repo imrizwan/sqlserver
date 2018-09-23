@@ -3,6 +3,7 @@ import * as bodyParser from "body-parser";
 import { Routes } from "./routes/todoRoutes";
 //importing all routes of todo app
 import { Client } from "pg";
+import * as cors from 'cors';
 //importing Client from postgresql (elephantsql: postgresql as a service)
 //Heroku
 class App {
@@ -32,7 +33,7 @@ class App {
       // call the method to verify the connection of postgresql
       if (err) {
         // if error occurs then return the error on console
-        return console.error("could not connect to postgres", err);
+        return console.error("Connection Problem: ", err.message);
       }
       // connection established
       client.query(
@@ -41,7 +42,7 @@ class App {
         function(err, result) {
           // if error occurs on query then return error on console
           if (err) {
-            return console.error("error running query", err);
+            return console.error("error running query", err.message);
           }
 
           // if query succeded then return the current time on console
@@ -74,6 +75,8 @@ class App {
       );
       next();
     });
+
+    this.app.use(cors());
   }
 }
 
