@@ -42,7 +42,7 @@ export class TodoController {
         if (error) {
           return res.status(500).json({ success: false, error: error });
         }
-        client.query("SELECT * FROM todoList ORDER BY id asc")
+        client.query("SELECT * FROM todoList ORDER BY id dsc")
           .then(result2 => {
             result2.rows.forEach(row => {
               results.push(row);
@@ -84,7 +84,7 @@ export class TodoController {
       todoDescription,
       complete
     };
-    console.log(data);
+    console.log("u", data);
     const client = new Client(connectionString);
     client.connect(() => {
       client.query(
