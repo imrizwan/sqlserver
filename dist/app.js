@@ -8,11 +8,15 @@ const pg_1 = require("pg");
 //importing Client from postgresql (elephantsql: postgresql as a service)
 //Heroku
 class App {
+    //"postgres://jjczkcpp:vCol1kmHUXJo8ID7gzHbqzcJS5AGidFR@pellefant.db.elephantsql.com:5432/jjczkcpp";
     // URL for connecting in elephantsql
     // declare the express constructor into app and also called config methods
     constructor() {
         this.routePrv = new todoRoutes_1.Routes();
-        this.postUrl = "postgres://jjczkcpp:vCol1kmHUXJo8ID7gzHbqzcJS5AGidFR@pellefant.db.elephantsql.com:5432/jjczkcpp";
+        this.postUrl = {
+            connectionString: "postgres://rdgqlzgqkeuxqz:8b89bd358daa419edf7f5f8b879cde3fd53db22b6eb42f0aa3be51b6de8390a4@ec2-54-225-241-25.compute-1.amazonaws.com:5432/d7knd1j7cm9u4c",
+            ssl: true,
+        };
         this.app = express();
         this.configDatabaseSetup();
         this.configSetup();

@@ -9,10 +9,10 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpileOnly lib/server.ts",
     "build": "tsc",
+    "heroku-postbuild": "npm build",
     "start": "node ./dist/server.js",
-    "heroku-postbuild": "npm run build",
     "prod": "npm run build && npm run start",
-    "test": "mocha --timeout 15000 -r ts-node/register lib/test/**/*.spec.ts"
+    "test": "mocha --timeout 85000 -r ts-node/register lib/test/**/*.spec.ts"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,6 @@
   "homepage": "https://github.com/Adil-Altaf/Ultimate_ToDo_List#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "cors": "^2.8.4",
     "express": "^4.16.3",
     "nodemon": "^1.18.4",
     "pg": "^7.4.3",

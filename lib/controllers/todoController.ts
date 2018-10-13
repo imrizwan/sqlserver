@@ -15,6 +15,18 @@ export class TodoController {
       todoDescription,
       complete: false
     };
+
+    if (!todoTitle && !todoDescription) {
+      return res.status(400).json({ success: false, error: "Both fields are Missing" });
+    }
+
+    if (!todoTitle) {
+      return res.status(400).json({ success: false, error: "Title is Missing" });
+    }
+    if (!todoDescription) {
+      return res.status(400).json({ success: false, error: "Description is Missing" });
+    }
+
     const client: any = new Client(connectionString);
     client.connect(error => {
       if (error) {
@@ -22,12 +34,17 @@ export class TodoController {
       }
       client
         .query(
-          "INSERT INTO todoList(todoTitle, todoDescription, complete) values($1, $2, $3)",
+          "INSERT INTO todoList(todoTitle, todoDescription, complete) values($1, $2, $3) RETURNING id",
           [data.todoTitle, data.todoDescription, data.complete]
         )
-        .then(result1 => {
-          client.end()
-          .then(()=> res.send({success: true, msg: 'Todo Added Successfully'}));
+        .then((resultId) => {
+          let id = resultId.rows[0].id
+
+          client.query('SELECT * FROM todoList where id=($1)', [id]).then((result) => {
+            console.log(result.rows[0]);
+            client.end()
+          .then(()=> res.status(200).send([result.rows[0], {success: true, msg: 'Todo Added Successfully'}]));
+          })
         })
         .catch(err => {
           return res.json({ success: false, data: err.message });
@@ -53,7 +70,6 @@ export class TodoController {
           .catch(err => {
             return res.json({ success: false, data: err.message });
           });
-
       })
   }
 
@@ -67,8 +83,13 @@ export class TodoController {
       }
 
       client.query('SELECT * FROM todoList where id=($1)', [id]).then((result) => {
+        if(!result.rows[0]){
+          return res.status(404).json({ success: false, msg: "Task Not Found!" });  
+        }
         client.end()
-          .then(()=> res.status(200).json(result.rows));
+          .then(()=> {
+            return res.status(200).json(result.rows)
+          });
       }).catch((err) => {
       return res.status(500).json({ success: false, data: err.message });  
       })
@@ -76,7 +97,6 @@ export class TodoController {
   }
 
   public updateTodo(req: Request, res: Response) {
-    const results = [];
     const id = req.params.id;
     const { todoTitle, todoDescription, complete } = req.body;
     const data = {
@@ -84,7 +104,6 @@ export class TodoController {
       todoDescription,
       complete
     };
-    console.log("u", data);
     const client = new Client(connectionString);
     client.connect(() => {
       client.query(
@@ -101,7 +120,6 @@ export class TodoController {
   }
 
   public deleteTodo(req: Request, res: Response) {
-    const results = [];
     const id = req.params.id;
     var client = new Client(connectionString);
     client.connect(() => {
